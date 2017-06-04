@@ -52,7 +52,7 @@ public:
 
 	Fighter() { Alive = true; bleedCounter = 0; bleedLimit = rand() % 5 + 6; }
 	
-	void IfAlive() {
+	void checkStatusFighter() {
 	    
 		Body[0].checkStatus();
 	    
@@ -89,10 +89,6 @@ public:
 	
 	void Attack(Fighter Warrior1, Fighter Warrior2) {
 
-		Warrior1.Bleeding(); // na poczatku tury zawodnik otrzymuje obrazenia od krwawienia
-
-		if (Warrior1.getStatusFighter() && Warrior2.getStatusFighter()) //jesli obaj zyja
-		{
 				attackSource = rand() % 5; 
 				
 				while (Warrior1.Body[attackSource].getStatus() == false) //jesli czesc ciala jest niektywna losujemy tak dlugo az znajdziemy aktywna
@@ -117,11 +113,47 @@ public:
 				
 				Warrior1.Body[attackSource].checkStatus();
 				Warrior2.Body[target].checkStatus();
-			
-		}
 
 	}
 
+	void Match(Fighter Warrior1, Fighter Warrior2) {
+		
+		while (Warrior1.getStatusFighter() && Warrior2.getStatusFighter())
+		{
+
+			Warrior1.Bleeding(); // na poczatku tury zawodnik otrzymuje obrazenia od krwawienia
+
+			Warrior1.checkStatusFighter(); //sprawdzamy czy przezyl
+
+			if (Warrior1.getStatusFighter() == false) break;
+			
+			Attack(Warrior1, Warrior2);  //atak
+
+			Warrior1.checkStatusFighter(); //sprawdzenie stanu w1
+			
+			if (Warrior1.getStatusFighter() == false) break;
+
+			Warrior2.checkStatusFighter(); //sprawdzenie stanu w2
+			
+			if (Warrior2.getStatusFighter() == false) break;
+
+		    Warrior2.Bleeding(); // krwawienie
+
+			Warrior2.checkStatusFighter(); //status drugiego zawodnika po krwawieniu
+
+			if (Warrior2.getStatusFighter() == false) break;
+            
+			Attack(Warrior2, Warrior1); //atak drugiego zawodnika
+			
+			Warrior1.checkStatusFighter(); //sprawdzenie statusów po ataku
+
+			if (Warrior1.getStatusFighter() == false) break;
+			
+			Warrior2.checkStatusFighter();
+
+			if (Warrior2.getStatusFighter() == false) break;
+		}
+	}
 };
 
 class Tournament : public Battle {
@@ -133,6 +165,10 @@ public:
 	Tournament() {
 		for (int i = 0; i < 64; i++)
 		{
+			for (int j = 0; j < 64; j++)
+			{
+				
+			}
          
 	    }
 	}
