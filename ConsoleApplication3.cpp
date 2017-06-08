@@ -54,16 +54,15 @@ public:
 
 };
 
-
 class Fighter : public BodyPart {
 private:
-	int bleedLimit;
-	int bleedCounter;
+	int bleedLimit; //ilosc krwi jaka zwodnik moze stracic
+	int bleedCounter; //licznik utracownej krwi
 	bool Alive;
 
 public:
 	BodyPart Body[5];
-
+	
 	Fighter()
 	{
 		Alive = true;
@@ -167,12 +166,12 @@ public:
 			int i = 0;
 			int j = N - 1;
 
-			cout << endl << endl << k << endl << endl;
+			cout << endl << endl << k << ":" << endl << endl;
 
 			while (true)
 			{
-				while (true)
-				{
+				while (true)         //szukamy pierwszego zywego zawodnika od lewej strony
+				{                                        
 					if (Duelists[i].getStatusFighter())
 						break;
 					else
@@ -181,7 +180,7 @@ public:
 						break;
 				}
 
-				while (true)
+				while (true)     //szukamy pierwszego zywego zawodnika od prawej strony
 				{
 					if (Duelists[j].getStatusFighter())
 						break;
@@ -191,12 +190,12 @@ public:
 						break;
 				}
 
-				if (i >= j)
+				if (i >= j)     
 					break;
 
-				Match(&(Duelists[i]), &(Duelists[j]));
+				Match(&(Duelists[i]), &(Duelists[j]));    //zawodnicy ci walcza ze soba
 
-				cout << "i, j: " << i << " - " << Duelists[i].getStatusFighter() << ",   " << j << " - " << Duelists[j].getStatusFighter() << endl;
+				cout << "i, j: " << i << " - " << Duelists[i].getStatusFighter() << ",   " << j << " - " << Duelists[j].getStatusFighter() << endl; //wypisujemy wynik
 				i++;
 				j--;
 			}
@@ -216,12 +215,12 @@ int main()
 {
 	srand(time(NULL));
 
-	Fighter Winners[N];
+	Fighter Winners[N]; //tworzymy pusta tablice na zwyciezcow pomniejszych turniejow
 
 	for (int i = 0; i < N; i++)
 	{
-		Fighter Duelists[N];
-		Winners[i] = Tournament::StartFight64(Duelists);
+		Fighter Duelists[N]; //tworzymy tablice malego turnieju
+		Winners[i] = Tournament::StartFight64(Duelists); //zwyciezca kazdego z malych turneiju trafia do wielkiego turnieju
 	}
 
 	cout << "LET THE SHIT BEGIN!" << endl;
